@@ -17,9 +17,8 @@ const pool = new Pool({
 
 app.get('/', async (req, res) => {
     try {
-        const results = await pool.query('SELECT * FROM posts');
-        console.Consolelog('response test')
-        res.json(results.rows);
+      //  const results = await pool.query('SELECT * FROM posts');
+        res.json('response');
     } catch (error) {
         console.error(error.message);
         console.log('error message')
@@ -28,4 +27,5 @@ app.get('/', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, () => 
+    console.log(`Server started on port ${PORT} // http://localhost:${PORT}`));
