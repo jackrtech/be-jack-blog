@@ -8,8 +8,10 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
-});
+    port: process.env.DB_PORT,
+    ssl: {
+        rejectUnauthorized: false
+    }}) 
 
 async function resetDatabase() {
     try {
@@ -18,14 +20,14 @@ async function resetDatabase() {
 
         await pool.query('SELECT NOW()');
 
-        console.log('Connected to database. Current time:', res.rows[0].now);
+        console.log('Connected to database. Current time:');
 
         console.log('Attempting to reset database...');
 
         await pool.query('DROP TABLE IF EXISTS posts');
 
         console.log('table dropped successfully');
-        
+
         await pool.query(`
             CREATE TABLE posts (
                 id SERIAL PRIMARY KEY,
@@ -42,7 +44,7 @@ async function resetDatabase() {
 
     }   catch (error) {
 
-        console.log('Error resetting database', error);
+        console.log('Error resetting database', error.message);
     }
 } 
 
