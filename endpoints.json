@@ -1,0 +1,23 @@
+{
+    "endpoints": [
+        {
+            "path" : "/",
+            "method" : "GET",
+            "description" : "Get all posts",
+            "paramateters" : [],
+            "responses" : {
+                "200" : {
+                    "description" : "JSON array of all posts",
+                    "body": [
+                        {
+                            "id" : "integer",
+                            "title": "string",
+                            "content": "string",
+                            "timestamp": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
