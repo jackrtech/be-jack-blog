@@ -33,7 +33,7 @@ async function resetDatabase() {
                 id SERIAL PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
                 content TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )`)
         await pool.query (`INSERT INTO posts (title, content) VALUES
             ('My First Post', 'This is my first post!'),
