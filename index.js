@@ -52,6 +52,25 @@ app.get('/:id', async (req, res) => {
     }
 });
 
+app.post('/', async (req, res) => {
+    const { title, content } = req.body;
+
+    if (!title || !content) {
+        return res.status(400).json({ status: 'error', message: 'Title and content are required' });
+    }
+
+    try {
+        const result = await pool.query(
+            'INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING *',
+            [title, content]
+        );
+        res.status(201).json({ status: 'success', data: result.rows[0] });
+    } catch (error) {
+        console.error('Error inserting new blog post:', error.message);
+        res.status(500).json({ status: 'error', message: 'Server error' });
+    }
+});
+
 
 const PORT = process.env.PORT || 5000;
 
