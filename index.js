@@ -26,6 +26,9 @@ app.get('/', async (req, res) => {
     try {
         const results = await pool.query('SELECT * FROM posts ORDER BY timestamp DESC LIMIT $1 OFFSET $2', [limit, offset]);
         const posts = results.rows;
+
+       // console.log(`Page: ${page}, Limit: ${limit}, Offset: ${offset}, Posts:`, posts); 
+
         res.json({ status: 'success', data: posts });
     } catch (error) {
         console.error('Error fetching posts:', error.message);
