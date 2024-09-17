@@ -21,13 +21,16 @@ app.get('/endpoints', (req, res) => {
 
 app.get('/', async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
-    const offset = (page - 1) * limit;
+    const parsedPage = parseInt(page, 10);
+    const parsedLimit = parseInt(limit, 10);
+    const offset = (parsedPage - 1) * parsedLimit;
+
 
     try {
-        const results = await pool.query('SELECT * FROM posts ORDER BY timestamp DESC LIMIT $1 OFFSET $2', [limit, offset]);
+        const results = await pool.query('SELECT * FROM posts ORDER BY timestamp DESC LIMIT $1 OFFSET $2', [parsedLimit, offset]);
         const posts = results.rows;
 
-       // console.log(`Page: ${page}, Limit: ${limit}, Offset: ${offset}, Posts:`, posts); 
+        // console.log(`Page: ${parsedPage}, Limit: ${parsedLimit}, Offset: ${offset}, Posts:`, posts);
 
         res.json({ status: 'success', data: posts });
     } catch (error) {
@@ -54,6 +57,7 @@ app.get('/:id', async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Server error' });
     }
 });
+
 
 app.post('/', async (req, res) => {
     const { title, content } = req.body;
