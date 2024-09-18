@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
         if (!post) {
             return res.status(404).json({ status: 'error', message: 'Post not found' });
         }
-        res.json({ status: 'success', data: post });
+        return res.json({ status: 'success', data: post });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ status: 'error', message: 'Server error' });
@@ -57,5 +57,23 @@ router.post('/', async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Server error' });
     }
 });
+
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log(`DELETE request for ID: ${id}`); 
+    try {
+        const deletedPost = await postModel.deletePostById(id); 
+        console.log('CONTROLLER ==> ', deletedPost)
+        if (!deletedPost) {
+            return res.status(404).json({ status: 'error', message: 'Post not found' });
+        } else {
+            res.status(200).json({ status: 'success', data: deletedPost });
+        }
+    } catch (error) {
+        console.error('Error deleting post:', error.message);
+        res.status(500).json({ status: 'error', message: 'Server error' });
+    }
+});
+
 
 module.exports = router;

@@ -19,4 +19,10 @@ const createPost = async (title, content) => {
     return result.rows[0];
 };
 
-module.exports = { getAllPosts, getPostById, createPost };
+const deletePostById = async (id) => {
+    const result = await pool.query('DELETE FROM posts WHERE id = $1 RETURNING *', [id]);
+    console.log(result.rows[0])
+    return result.rows[0];
+};
+
+module.exports = { getAllPosts, getPostById, createPost, deletePostById };
